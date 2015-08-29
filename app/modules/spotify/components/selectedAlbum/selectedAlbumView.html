@@ -1,0 +1,15 @@
+<div data-ng-if="selectedAlbum">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <div class="row" >
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    <img ng-src="{{selectedAlbum.artist.imageUrl.url}}" />
+                </div>
+                <div class="col-xs-9 col-sm-9 col-md-9">
+                    <p><i class="fa fa-users"></i> {{selectedAlbum.albumName}}</p>
+                    <p><i class="fa fa-users"></i> {{selectedAlbum.artist.name}}</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

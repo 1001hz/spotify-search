@@ -1,0 +1,40 @@
+<div>
+
+    <div data-ng-if="artistResults != null && albumResults == null">
+        <h2>Artists</h2>
+        <ul class="list-group">
+            <li class="list-group-item" data-ng-repeat="artist in artistResults">
+                <div class="row" >
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <img ng-src="{{artist.imageUrl.url}}" />
+                    </div>
+                    <div class="col-xs-9 col-sm-9 col-md-9">
+                        <p data-ng-click="getAlbums(artist)"><i class="fa fa-users"></i> {{artist.name}}</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div data-ng-if="albumResults != null">
+        <h2>Albums</h2>
+        <p><button class="btn btn-default" data-ng-click="backToArtists()"><i class="fa fa-arrow-left"></i> Back to artists</button></p>
+        <ul class="list-group">
+            <li class="list-group-item" data-ng-repeat="album in albumResults">
+                <div class="row" >
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <img ng-src="{{album.imageUrlSmall}}" />
+                    </div>
+                    <div class="col-xs-9 col-sm-9 col-md-9">
+                        <p><i class="fa fa-music"></i><strong> {{album.albumName}}</strong></p>
+                        <p><i class="fa fa-users"></i> {{album.artistName}}</p>
+                        <button data-ng-click="setSelectedAlbum(album)" class="btn btn-default">Select</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <spotify-pagination></spotify-pagination>
+
+</div>
