@@ -13,9 +13,17 @@
             restrict: 'E',
             templateUrl: 'modules/spotify/components/albumPicker/albumPickerView.html',
             replace: true,
-            controller: function(){
+            scope: {
+              album: '='
+            },
+            link: albumPickerLink,
+            controller: 'albumPickerController',
+            controllerAs: 'albumPickerCtrl',
+            bindToController:true
+        }
 
-            }
+        function albumPickerLink(scope, elem, attr, albumPickerCtrl){
+
         }
 
     }

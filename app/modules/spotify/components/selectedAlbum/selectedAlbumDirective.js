@@ -11,14 +11,18 @@
     function selectedAlbum() {
         return {
             restrict: 'E',
-            templateUrl: 'modules/spotify/components/albumPicker/selectedAlbumView.html',
+            templateUrl: 'modules/spotify/components/selectedAlbum/selectedAlbumView.html',
             replace: true,
             link: link,
-            require: '^pickSelection'
+            require: '^albumPicker'
         }
 
-        function link(scope, element, attrs, pickSelectionCtrl) {
-            scope.selectedAlbum = pickSelectionCtrl.selectedAlbum;
+        function link(scope, element, attrs, albumPickerCtrl) {
+
+            scope.removeAlbum = function(){
+                albumPickerCtrl.album = null;
+            }
+
         }
 
     }

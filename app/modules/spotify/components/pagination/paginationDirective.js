@@ -4,28 +4,23 @@
 
     angular
         .module('app.spotify')
-        .directive('spotifyPagination', spotifyPagination);
+        .directive('pagination', pagination);
 
-    spotifyPagination.$inject = ['SpotifyDataSrv'];
+    pagination.$inject = ['SpotifySrv'];
 
-    function spotifyPagination(SpotifyDataSrv) {
+    function pagination(SpotifySrv) {
         return {
             restrict: 'E',
-            templateUrl: 'modules/spotify/components/albumPicker/paginationView.html',
+            templateUrl: 'modules/spotify/components/pagination/paginationView.html',
             replace: true,
             link: link,
             require: '^albumPicker'
         }
 
         function link(scope, element, attrs, albumPickerCtrl) {
-            scope.selectedArtist = albumPickerCtrl.selectedArtist;
-            scope.albumResults = albumPickerCtrl.albumResults;
-            scope.artistResults = albumPickerCtrl.artistResults;
-            scope.moreResultsUrl = albumPickerCtrl.moreResultsUrl;
-
 
             scope.getMoreResults = function(){
-                if(scope.selectedArtist == null){
+                if(albumPickerCtrl.selectedArtist == null){
                     getMoreArtists();
                 }
                 else{
@@ -34,27 +29,27 @@
             }
 
             function getMoreArtists(){
-                SpotifyDataSrv.getMoreArtists()
+                SpotifySrv.getMoreArtists()
                     .then(setArtistResults)
                     .catch(problemWithPagination);
             }
 
             function getMoreAlbums(){
-                SpotifyDataSrv.getMoreAlbums(scope.selectedArtist)
+                SpotifySrv.getMoreAlbums(albumPickerCtrl.selectedArtist)
                     .then(setAlbumResults)
                     .catch(problemWithPagination);
             }
 
             function setArtistResults(artists){
-                var allArtistResults = scope.artistResults.concat(artists);
-                albumPickerCtrl.setArtistResults(allArtistResults);
-                albumPickerCtrl.setMoreResultsUrl(SpotifyDataSrv.getMoreResultsUrl());
+                var allArtistResults = albumPickerCtrl.artistSearchResults.concat(artists);
+                albumPickerCtrl.artistSearchResults = allArtistResults;
+                albumPickerCtrl.pageResultsUrl = SpotifySrv.getMoreResultsUrl();
             }
 
             function setAlbumResults(albums){
-                var allAlbumResults = scope.albumResults.concat(albums);
-                albumPickerCtrl.setAlbumResults(allAlbumResults);
-                albumPickerCtrl.setMoreResultsUrl(SpotifyDataSrv.getMoreResultsUrl());
+                var allAlbumResults = albumPickerCtrl.albumSearchResults.concat(albums);
+                albumPickerCtrl.albumSearchResults = allAlbumResults;
+                albumPickerCtrl.pageResultsUrl = SpotifySrv.getMoreResultsUrl();
             }
 
 

@@ -4,36 +4,44 @@
 
     angular
         .module('app.spotify')
-        .directive('searchBox', searchBox);
+        .directive('search', search);
 
-    searchBox.$inject = ['MsgSrv', 'SpotifyDataSrv'];
+    search.$inject = ['SpotifySrv'];
 
-    function searchBox(MsgSrv, SpotifyDataSrv) {
+    function search(SpotifySrv) {
         return {
             restrict: 'E',
-            templateUrl: 'modules/spotify/components/albumPicker/searchView.html',
+            templateUrl: 'modules/spotify/components/search/searchView.html',
             replace: true,
             link: link,
-            require: '^albumPicker'
+            require: '^albumPicker',
+            controller: searchController,
+            controllerAs: 'searchCtrl',
+            bindToController:true
+        }
+
+        function searchController(){
+
         }
 
         function link(scope, element, attrs, albumPickerCtrl) {
 
-            scope.search = function(){
-                albumPickerCtrl.setAlbumResults(null);
-                SpotifyDataSrv.searchArtists(scope.query)
+            scope.searchArtists = function(query){
+                albumPickerCtrl.albumSearchResults = null;
+                SpotifySrv.searchArtists(query)
                     .then(setArtistResults)
                     .catch(problemWithSearch);
             }
 
             function setArtistResults(artists){
-                albumPickerCtrl.setArtistResults(artists);
-                albumPickerCtrl.setMoreResultsUrl(SpotifyDataSrv.getMoreResultsUrl());
+                albumPickerCtrl.artistSearchResults = artists;
+                albumPickerCtrl.pageResultsUrl = SpotifySrv.getMoreResultsUrl();
             }
 
             function problemWithSearch(error){
-                MsgSrv.addError("There was a problem with your search", error);
+                console.log(error);
             }
+
         }
 
     }

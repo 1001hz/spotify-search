@@ -157,6 +157,10 @@ pipes.builtIndexDev = function () {
     var appStyles = pipes.builtStylesDev();
     var vendorStyles = pipes.vendorStyles();
 
+    var imageFiles = [paths.images + '/*'];
+    gulp.src(imageFiles)
+        .pipe(gulp.dest(paths.devDistImages));
+
     return pipes.validatedIndex()
         .pipe(gulp.dest(paths.devDist)) // write first to get relative path for inject
         .pipe(inject(series(orderedVendorScripts, orderedAppScripts), { relative: true }))
@@ -190,6 +194,6 @@ pipes.builtAppProd = function () {
 
 
 // cleans and builds a complete prod environment
-gulp.task('default', ['dev-clean'], pipes.builtAppProd);
+gulp.task('default', ['prod-clean'], pipes.builtAppProd);
 // cleans and builds a complete dev environment
-gulp.task('dev', ['prod-clean'], pipes.builtAppDev);
+gulp.task('dev', ['dev-clean'], pipes.builtAppDev);

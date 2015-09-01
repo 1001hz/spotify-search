@@ -6,44 +6,56 @@
         .module('app.spotify')
         .directive('results', results);
 
-    results.$inject = ['SpotifyDataSrv'];
+    results.$inject = ['SpotifySrv'];
 
-    function results(SpotifyDataSrv) {
+    function results(SpotifySrv) {
         return {
             restrict: 'E',
-            templateUrl: 'modules/spotify/components/albumPicker/resultsView.html',
+            templateUrl: 'modules/spotify/components/results/resultsView.html',
             replace: true,
             link: link,
             require: '^albumPicker'
         }
 
         function link(scope, element, attrs, albumPickerCtrl) {
-            scope.artistResults = albumPickerCtrl.artistResults;
+
 
             scope.getAlbums = function(artist){
-                albumPickerCtrl.setArtist(artist);
-                SpotifyDataSrv.getAlbums(artist)
+                albumPickerCtrl.selectedArtist = artist;
+                SpotifySrv.getAlbums(artist)
                     .then(showAlbumResults)
                     .catch(problemGettingAlbumsForArtist);
             }
 
             scope.setSelectedAlbum = function(album){
-                albumPickerCtrl.setAlbum(album);
+                albumPickerCtrl.album = album;
+                SpotifySrv.getAlbumTracks(album.spotifyId)
+                    .then(setTrackList)
+                    .catch(problemGettingTrackList);
             }
 
             scope.backToArtists = function(){
-                albumPickerCtrl.setAlbumResults(null);
+                albumPickerCtrl.albumSearchResults = null;
+            }
+
+            function setTrackList(tracks){
+                console.log(tracks);
+                albumPickerCtrl.selectedAlbumTrackList = tracks;
             }
 
             function showAlbumResults(albums){
-                albumPickerCtrl.setAlbumResults(albums);
-                scope.albumResults = albums;
-                albumPickerCtrl.setMoreResultsUrl(SpotifyDataSrv.getMoreResultsUrl());
+                albumPickerCtrl.albumSearchResults = albums;
+                albumPickerCtrl.pageResultsUrl = SpotifySrv.getMoreResultsUrl();
             }
 
             function problemGettingAlbumsForArtist(error){
 
             }
+
+            function problemGettingTrackList(error){
+
+            }
+
         }
 
     }

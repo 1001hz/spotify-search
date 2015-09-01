@@ -1,0 +1,50 @@
+body{
+    background:#444444;
+    color:#eeeeee;
+}
+.album-item{
+    background:#3c3c3c;
+    overflow: auto;
+}
+.album-item:hover{
+    background:#222;
+    cursor: pointer;
+}
+.album-item-title p{
+
+}
+.album-item img{
+    float:left;
+    margin-right: 10px;
+    width:60px;
+}
+.album-panel .list-group-item{
+    border:0px;
+}
+.artist-panel{
+    padding-top:20px;
+    text-align: center;
+}
+.artist-panel img{
+    width:80%
+}
+.selected-album{
+    background:#3c3c3c;
+    overflow: auto;
+}
+.selected-album img{
+    float:left;
+    margin-right: 10px;
+    width:60px;
+}
+.selected-album .track-list{
+
+}
+.selected-album .list-group-item{
+    color:#ccc;
+    border-bottom:none;
+    border-left:none;
+    border-right:none;
+    border-top:dotted 1px #666666;
+    background:#3c3c3c;
+}

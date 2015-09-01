@@ -26,8 +26,9 @@
 
 <body data-ng-app="app">
 
-    <div class="container-fluid">
-        <album-picker></album-picker>
+    <div class="container-fluid" data-ng-controller="parentController as parentCtrl">
+        <button class="btn btn-default" data-ng-click="parentCtrl.save()">Save</button>
+        <album-picker album="parentCtrl.album"></album-picker>
     </div>
     <!-- inject:js -->
     <!-- endinject -->
